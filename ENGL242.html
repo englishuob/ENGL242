@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENGL242 — Report Writing and Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#19231f;
+    --ink-soft:#4a564f;
+    --paper:#faf8f2;
+    --card:#ffffff;
+    --green:#0d5c4a;
+    --green-deep:#08402f;
+    --green-tint:#e7f0ec;
+    --amber:#bd6b13;
+    --amber-tint:#fbf0df;
+    --crimson:#9b2c2c;
+    --crimson-tint:#f6e7e6;
+    --line:#e4ddcf;
+    --line-soft:#efe9dd;
+    --shadow:0 1px 2px rgba(25,35,31,.04),0 8px 24px rgba(25,35,31,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:78px;-webkit-text-size-adjust:100%}
+  body{
+    font-family:"IBM Plex Sans",system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.55;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px}
+
+  /* ---------- sticky nav ---------- */
+  header.bar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,248,242,.92);
+    backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .bar-inner{max-width:760px;margin:0 auto;padding:9px 18px;display:flex;align-items:center;gap:10px}
+  .bar-code{
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.78rem;
+    letter-spacing:.04em;color:var(--green);
+    background:var(--green-tint);padding:4px 8px;border-radius:6px;white-space:nowrap;
+  }
+  .bar-title{font-family:"Spectral",serif;font-weight:600;font-size:.95rem;color:var(--ink);
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+  nav.chips{overflow-x:auto;border-bottom:1px solid var(--line);background:rgba(250,248,242,.92)}
+  .chips-inner{max-width:760px;margin:0 auto;padding:8px 18px;display:flex;gap:7px;white-space:nowrap}
+  .chips a{
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.02em;
+    text-decoration:none;color:var(--ink-soft);
+    padding:5px 11px;border:1px solid var(--line);border-radius:20px;background:var(--card);
+    transition:all .15s ease;flex:0 0 auto;
+  }
+  .chips a:hover,.chips a:focus-visible{color:var(--green);border-color:var(--green);background:var(--green-tint)}
+  .chips::-webkit-scrollbar{display:none}
+  nav.chips{scrollbar-width:none}
+
+  /* ---------- hero ---------- */
+  .hero{padding:34px 0 26px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--green);font-weight:500;margin-bottom:12px}
+  h1{font-family:"Spectral",serif;font-weight:600;font-size:2.15rem;line-height:1.12;
+    letter-spacing:-.01em;margin-bottom:14px}
+  .lede{font-size:1.04rem;color:var(--ink-soft);max-width:60ch}
+
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .fact{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;min-width:0}
+  .fact .k{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:1px}
+  .fact .v{font-size:.9rem;font-weight:600;color:var(--ink)}
+
+  /* ---------- assessment strip ---------- */
+  .assess-strip{margin-top:22px;background:var(--green-deep);border-radius:14px;
+    padding:16px;color:#eaf3ef;box-shadow:var(--shadow)}
+  .assess-strip h2{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;
+    text-transform:uppercase;color:#9ec9bb;font-weight:500;margin-bottom:13px}
+  .assess-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .assess-item{text-align:left}
+  .assess-item .pct{font-family:"Spectral",serif;font-size:1.7rem;font-weight:600;line-height:1;color:#fff}
+  .assess-item .nm{font-size:.74rem;color:#bdd8cf;margin-top:4px;line-height:1.25}
+  .assess-item .dt{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:#7fb3a3;margin-top:3px}
+
+  /* ---------- sections / accordion ---------- */
+  section{border-bottom:1px solid var(--line)}
+  .acc-head{
+    width:100%;background:none;border:none;cursor:pointer;text-align:left;
+    padding:20px 0;display:flex;align-items:center;gap:12px;font-family:inherit;color:inherit;
+  }
+  .acc-num{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--green);
+    font-weight:600;flex:0 0 auto}
+  .acc-title{font-family:"Spectral",serif;font-size:1.32rem;font-weight:600;flex:1;letter-spacing:-.01em}
+  .acc-ico{flex:0 0 auto;width:22px;height:22px;color:var(--ink-soft);transition:transform .25s ease}
+  .acc-head[aria-expanded="true"] .acc-ico{transform:rotate(45deg);color:var(--green)}
+  .acc-body{overflow:hidden;max-height:0;transition:max-height .32s ease}
+  .acc-inner{padding:0 0 28px}
+  .acc-body p{color:var(--ink-soft);margin-bottom:12px}
+  .acc-body p:last-child{margin-bottom:0}
+
+  /* outcome list */
+  ol.cilo{list-style:none;counter-reset:c;display:grid;gap:10px}
+  ol.cilo li{counter-increment:c;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:13px 15px 13px 48px;position:relative;font-size:.96rem}
+  ol.cilo li::before{content:counter(c);position:absolute;left:13px;top:13px;
+    width:24px;height:24px;border-radius:7px;background:var(--green-tint);color:var(--green);
+    font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.8rem;
+    display:flex;align-items:center;justify-content:center}
+
+  /* assessment detail table */
+  .atable{display:grid;gap:8px}
+  .arow{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center;
+    background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+  .arow .anm{font-weight:600}
+  .arow .ameta{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--ink-soft);margin-top:2px}
+  .arow .apct{font-family:"Spectral",serif;font-size:1.45rem;font-weight:600;color:var(--green);text-align:right}
+  .tag{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.6rem;letter-spacing:.05em;
+    text-transform:uppercase;padding:2px 7px;border-radius:5px;font-weight:600;vertical-align:middle}
+  .tag.exam{background:var(--crimson-tint);color:var(--crimson)}
+  .tag.cw{background:var(--amber-tint);color:var(--amber)}
+
+  /* ---------- weekly timeline (signature) ---------- */
+  .progress-wrap{margin-bottom:20px;background:var(--card);border:1px solid var(--line);
+    border-radius:11px;padding:13px 15px}
+  .progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
+  .progress-top span:first-child{font-family:"IBM Plex Mono",monospace;font-size:.7rem;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+  .progress-top span:last-child{font-family:"Spectral",serif;font-weight:600;color:var(--green)}
+  .progress-track{height:7px;background:var(--green-tint);border-radius:99px;overflow:hidden}
+  .progress-fill{height:100%;background:var(--green);border-radius:99px;width:0;transition:width .4s ease}
+
+  .timeline{position:relative;padding-left:20px}
+  .timeline::before{content:"";position:absolute;left:5px;top:6px;bottom:6px;width:2px;background:var(--line)}
+  .twk{position:relative;padding:0 0 18px 16px}
+  .twk:last-child{padding-bottom:0}
+  .twk::before{content:"";position:absolute;left:-19px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--green);z-index:1}
+  .twk.done::before{background:var(--green)}
+  .twk-card{background:var(--card);border:1px solid var(--line);border-radius:11px;
+    padding:13px 15px;box-shadow:var(--shadow)}
+  .twk-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .twk-no{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.72rem;color:#fff;
+    background:var(--green);padding:3px 8px;border-radius:6px}
+  .twk-date{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-soft)}
+  .twk-cilo{font-family:"IBM Plex Mono",monospace;font-size:.64rem;color:var(--green);
+    background:var(--green-tint);padding:2px 7px;border-radius:5px;margin-left:auto}
+  .twk-topics{margin-top:9px;color:var(--ink-soft);font-size:.93rem}
+  .twk-topics li{margin-left:17px;margin-bottom:2px}
+  .twk-flag{margin-top:10px;display:flex;align-items:flex-start;gap:7px;
+    background:var(--amber-tint);border-radius:8px;padding:8px 11px;
+    font-size:.82rem;color:#7a4410;font-weight:500}
+  .twk-flag svg{flex:0 0 auto;margin-top:1px}
+  .twk-check{margin-top:11px;display:flex;align-items:center;gap:8px;cursor:pointer;
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--ink-soft);user-select:none}
+  .twk-check input{width:16px;height:16px;accent-color:var(--green);cursor:pointer}
+
+  /* topics chips */
+  .topics-list{display:grid;gap:7px}
+  .topic{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+  .topic b{display:block;font-size:.96rem;margin-bottom:2px}
+  .topic span{font-size:.86rem;color:var(--ink-soft)}
+
+  /* resources */
+  .res-item{background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;margin-bottom:8px}
+  .res-item .rk{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--green);margin-bottom:3px}
+  .res-item a{color:var(--green);word-break:break-word}
+  .pol{margin-bottom:14px}
+  .pol b{font-family:"Spectral",serif;font-size:1.02rem;display:block;margin-bottom:4px}
+  .pol a{color:var(--green)}
+
+  .contact-grid{display:grid;gap:8px}
+  .contact-grid .fact{display:flex;flex-direction:column}
+  a.mail{color:var(--green);font-family:"IBM Plex Mono",monospace;font-size:.85rem}
+
+  footer{padding:26px 0 40px;text-align:center}
+  footer .src{font-size:.78rem;color:var(--ink-soft);max-width:54ch;margin:0 auto 8px;line-height:1.5}
+  footer .stamp{font-family:"IBM Plex Mono",monospace;font-size:.66rem;color:var(--ink-soft);letter-spacing:.04em}
+
+  a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+
+  @media (max-width:560px){
+    h1{font-size:1.75rem}
+    .assess-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+    .assess-item .pct{font-size:1.5rem}
+    .bar-title{display:none}
+    .acc-title{font-size:1.18rem}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <span class="bar-code">ENGL242</span>
+    <span class="bar-title">Report Writing and Presentation</span>
+  </div>
+</header>
+<nav class="chips" aria-label="Section navigation">
+  <div class="chips-inner">
+    <a href="#overview">Overview</a>
+    <a href="#outcomes">Outcomes</a>
+    <a href="#assessment">Assessment</a>
+    <a href="#schedule">Schedule</a>
+    <a href="#topics">Topics</a>
+    <a href="#resources">Resources</a>
+    <a href="#policies">Policies</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <div class="hero" id="overview">
+    <div class="eyebrow">University of Bahrain · College of Arts · Summer 2025–26</div>
+    <h1>Report Writing and Presentation</h1>
+    <p class="lede">Theoretical and practical experience in technical report writing and presentation — from the stages of building a report to presenting its findings. The emphasis throughout is on tasks and assignments, the central one being a full-length report delivered formally with PowerPoint.</p>
+
+    <div class="facts">
+      <div class="fact"><span class="k">Credits</span><span class="v">3 (3-0-3)</span></div>
+      <div class="fact"><span class="k">NQF Level</span><span class="v">7</span></div>
+      <div class="fact"><span class="k">Prerequisite</span><span class="v">ENGL102</span></div>
+      <div class="fact"><span class="k">Program</span><span class="v">B.Sc. Engineering</span></div>
+      <div class="fact"><span class="k">Mode</span><span class="v">Traditional</span></div>
+      <div class="fact"><span class="k">Sec 03</span><span class="v">UTH 10:00–11:40</span></div>
+      <div class="fact"><span class="k">Sec 04</span><span class="v">UTH 12:00–13:40</span></div>
+    </div>
+
+    <div class="assess-strip">
+      <h2>Assessment at a glance</h2>
+      <div class="assess-grid">
+        <div class="assess-item"><div class="pct">25%</div><div class="nm">Midterm Exam</div><div class="dt">TBA</div></div>
+        <div class="assess-item"><div class="pct">25%</div><div class="nm">Report</div><div class="dt">4 Aug 2026</div></div>
+        <div class="assess-item"><div class="pct">10%</div><div class="nm">Presentation</div><div class="dt">7 Aug 2026</div></div>
+        <div class="assess-item"><div class="pct">40%</div><div class="nm">Final Exam</div><div class="dt">16 Aug 2026</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTCOMES -->
+  <section id="outcomes">
+    <button class="acc-head" aria-expanded="true" aria-controls="b-outcomes">
+      <span class="acc-num">01</span><span class="acc-title">Learning outcomes</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-outcomes"><div class="acc-inner">
+      <p>By the end of this course you should be able to:</p>
+      <ol class="cilo">
+        <li>Apply standard research methods utilising IEEE format.</li>
+        <li>Critically analyse and review information from printed and electronic sources in order to paraphrase and summarise effectively.</li>
+        <li>Apply proper referencing styles and citations, while avoiding plagiarism.</li>
+        <li>Compose a full-length report utilising correct language.</li>
+        <li>Articulate research findings using oral presentation skills.</li>
+      </ol>
+    </div></div>
+  </section>
+
+  <!-- ASSESSMENT -->
+  <section id="assessment">
+    <button class="acc-head" aria-expanded="false" aria-controls="b-assessment">
+      <span class="acc-num">02</span><span class="acc-title">Assessment</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-assessment"><div class="acc-inner">
+      <div class="atable">
+        <div class="arow">
+          <div><div class="anm">Midterm Exam <span class="tag exam">Exam</span></div><div class="ameta">Individual · Date TBA</div></div>
+          <div class="apct">25%</div>
+        </div>
+        <div class="arow">
+          <div><div class="anm">Report <span class="tag cw">Coursework</span></div><div class="ameta">Individual · Due 4 Aug 2026</div></div>
+          <div class="apct">25%</div>
+        </div>
+        <div class="arow">
+          <div><div class="anm">Presentation <span class="tag cw">Coursework</span></div><div class="ameta">Individual · 7 Aug 2026</div></div>
+          <div class="apct">10%</div>
+        </div>
+        <div class="arow">
+          <div><div class="anm">Final Exam <span class="tag exam">Exam</span></div><div class="ameta">Individual · 16 Aug 2026 · 2:30–4:30 pm</div></div>
+          <div class="apct">40%</div>
+        </div>
+      </div>
+      <p style="margin-top:14px">All assessments are individual and summative. Exams are held outside lecture time and scheduled by Registration.</p>
+    </div></div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section id="schedule">
+    <button class="acc-head" aria-expanded="true" aria-controls="b-schedule">
+      <span class="acc-num">03</span><span class="acc-title">Weekly schedule</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-schedule"><div class="acc-inner">
+      <div class="progress-wrap">
+        <div class="progress-top"><span>Your progress</span><span id="prog-label">0 / 7 weeks</span></div>
+        <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+      </div>
+      <div class="timeline" id="timeline">
+        <!-- weeks injected by JS so progress + checkboxes stay in sync -->
+      </div>
+    </div></div>
+  </section>
+
+  <!-- TOPICS -->
+  <section id="topics">
+    <button class="acc-head" aria-expanded="false" aria-controls="b-topics">
+      <span class="acc-num">04</span><span class="acc-title">Topics covered</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-topics"><div class="acc-inner">
+      <div class="topics-list">
+        <div class="topic"><b>The writing process</b><span>Stages of writing a report · pre-writing strategies · reviewing scholarly articles to identify parts &amp; recognise IEEE format.</span></div>
+        <div class="topic"><b>Formal report structure (IEEE)</b><span>Page numbering &amp; section breaks · Table of Contents &amp; Cover Page.</span></div>
+        <div class="topic"><b>Choosing a topic</b><span>Selecting a report topic by audience and aim.</span></div>
+        <div class="topic"><b>Critically evaluating sources</b><span>Scholarly article search · selecting sources · peer editing.</span></div>
+        <div class="topic"><b>Avoiding plagiarism</b><span>Report specifications · quotations · paraphrases &amp; summaries.</span></div>
+        <div class="topic"><b>IEEE references &amp; format</b><span>Referencing · introduction · conclusion · figures, tables &amp; abstract.</span></div>
+        <div class="topic"><b>Presentation skills</b><span>Effective audience engagement · overcoming presentation anxiety · slide design (PowerPoint / Prezi).</span></div>
+        <div class="topic"><b>Revision</b><span>Revising the formal report · final exam preparation.</span></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- RESOURCES -->
+  <section id="resources">
+    <button class="acc-head" aria-expanded="false" aria-controls="b-resources">
+      <span class="acc-num">05</span><span class="acc-title">Textbook &amp; resources</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-resources"><div class="acc-inner">
+      <div class="res-item"><div class="rk">Set textbook</div>Bailey, S. (2018). <em>Academic Writing: A Handbook for International Students</em>. Routledge.</div>
+      <div class="res-item"><div class="rk">Reference</div>Beer, D. &amp; McMurrey, D. <em>A Guide to Writing as an Engineer.</em></div>
+      <div class="res-item"><div class="rk">Reference</div><em>English for Academic Study: Extended Writing &amp; Research Skills.</em></div>
+      <div class="res-item"><div class="rk">E-learning</div>Course materials on Blackboard — <a href="https://blackboard.uob.edu.bh" target="_blank" rel="noopener">blackboard.uob.edu.bh</a></div>
+      <div class="res-item"><div class="rk">Library</div>UoB Library &amp; academic journals — <a href="http://library.uob.edu.bh/en/start.htm" target="_blank" rel="noopener">library.uob.edu.bh</a></div>
+    </div></div>
+  </section>
+
+  <!-- POLICIES -->
+  <section id="policies">
+    <button class="acc-head" aria-expanded="false" aria-controls="b-policies">
+      <span class="acc-num">06</span><span class="acc-title">Integrity &amp; attendance</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-policies"><div class="acc-inner">
+      <div class="pol">
+        <b>Academic integrity</b>
+        <p>Students must observe the highest standards of honesty and academic ethics, as per UoB Regulations of Student Conduct and Academic Integrity. Cheating, plagiarism and unauthorised collaboration carry serious consequences under university policy. See the <a href="https://uobhomesiteprod.s3.me-south-1.amazonaws.com/site-prod/uploads/2021/03/3-7-Anti-Plagiarism_Policy_130430b-2014-1-28-Arabic-1.pdf" target="_blank" rel="noopener">Anti-Plagiarism Policy</a> and the <a href="https://uobhomesiteprod.s3.me-south-1.amazonaws.com/site-prod/uploads/2021/03/4-1-students_rights.pdf" target="_blank" rel="noopener">Students' Rights &amp; Responsibilities Handbook</a>.</p>
+      </div>
+      <div class="pol">
+        <b>Attendance</b>
+        <p>Regular attendance at lectures and practical sessions is required, per Article (33) of the <a href="https://uobhomesiteprod.s3.me-south-1.amazonaws.com/site-prod/uploads/Study_and_Examination_System_Sep2023.pdf" target="_blank" rel="noopener">Regulations of Study and Examination</a> at the University of Bahrain.</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <button class="acc-head" aria-expanded="false" aria-controls="b-contact">
+      <span class="acc-num">07</span><span class="acc-title">Instructor &amp; contact</span>
+      <svg class="acc-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <div class="acc-body" id="b-contact"><div class="acc-inner">
+      <div class="contact-grid">
+        <div class="fact"><span class="k">Instructor</span><span class="v">Ayman Zaid</span></div>
+        <div class="fact"><span class="k">Instructor email</span><a class="mail" href="mailto:azaid@uob.edu.bh">azaid@uob.edu.bh</a></div>
+        <div class="fact"><span class="k">Coordinator</span><span class="v">Dr. Priya Sharma</span></div>
+        <div class="fact"><span class="k">Coordinator email</span><a class="mail" href="mailto:psharma@uob.edu.bh">psharma@uob.edu.bh</a></div>
+        <div class="fact"><span class="k">Office hours</span><span class="v" style="font-weight:500">Consultations electronically via email or Teams</span></div>
+        <div class="fact"><span class="k">Department</span><span class="v" style="font-weight:500">English Language &amp; Literature</span></div>
+      </div>
+    </div></div>
+  </section>
+
+  <footer>
+    <p class="src">Reference page compiled from the official ENGL242 Academic Course Specification (University of Bahrain QA &amp; Accreditation Center). If anything here conflicts with the official form or Blackboard, the official version takes precedence.</p>
+    <p class="stamp">ENGL242 · Summer 2025–26 · Instructor: Ayman Zaid · Coordinator: Dr. Priya Sharma</p>
+  </footer>
+
+</main>
+
+<script>
+  /* ---------- weekly schedule data ---------- */
+  const weeks = [
+    {no:1, date:"1–2 Jul 2026", cilo:"CILO 1, 2", topics:[
+      "Stages of writing a report; structure of the report (1.1, 1.2)",
+      "Page numbering &amp; section breaks; formal paper format (1.3)",
+      "Table of Contents &amp; Cover Page (3.2)"],
+      flag:"Short week &mdash; term starts Wednesday; Sunday content merged into Wed &amp; Thu"},
+    {no:2, date:"5 Jul 2026", cilo:"CILO 1, 2", topics:[
+      "Choosing a report topic (audience / aim); stages of writing (2.1)",
+      "Finding information &mdash; preparing for the search (4.1)",
+      "Critically evaluating sources (4.2); peer editing; effective slide design"],
+      flag:"Submit report title &amp; outline"},
+    {no:3, date:"12 Jul 2026", cilo:"CILO 1, 2, 3, 5", topics:[
+      "Report specifications (3, 3.1)",
+      "Avoiding plagiarism; quotations; effective audience engagement"],
+      flag:"Instructor feedback on report title &amp; outline"},
+    {no:4, date:"19 Jul 2026", cilo:"CILO 1, 2, 3, 5", topics:[
+      "Paraphrases &amp; summaries; writing references",
+      "Writing the introduction and conclusion",
+      "Overcoming anxiety in a presentation"]},
+    {no:5, date:"26 Jul 2026", cilo:"CILO 1, 2, 3", topics:[
+      "List of figures and tables; writing the abstract",
+      "Report editing &amp; revising &mdash; peer review"]},
+    {no:6, date:"2 Aug 2026", cilo:"CILO 3, 5", topics:[
+      "Report editing &amp; revising; practising presentation skills"],
+      flag:"Report due 4 Aug &middot; Presentation 7 Aug 2026"},
+    {no:7, date:"9 Aug 2026", cilo:"CILO 2, 3, 5", topics:[
+      "Revision"],
+      flag:"Final Exam 16 Aug 2026 &middot; 2:30&ndash;4:30 pm"}
+  ];
+
+  const flagIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>';
+
+  /* progress persistence — degrades gracefully if storage is blocked */
+  const KEY = "engl242-progress";
+  function loadDone(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+  function saveDone(d){ try{ localStorage.setItem(KEY, JSON.stringify(d)); }catch(e){} }
+  let done = loadDone();
+
+  const tl = document.getElementById("timeline");
+  weeks.forEach(w=>{
+    const el = document.createElement("div");
+    el.className = "twk" + (done[w.no] ? " done" : "");
+    el.dataset.no = w.no;
+    el.innerHTML =
+      '<div class="twk-card">' +
+        '<div class="twk-top">' +
+          '<span class="twk-no">Week ' + w.no + '</span>' +
+          '<span class="twk-date">' + w.date + '</span>' +
+          '<span class="twk-cilo">' + w.cilo + '</span>' +
+        '</div>' +
+        '<ul class="twk-topics">' + w.topics.map(t=>'<li>'+t+'</li>').join('') + '</ul>' +
+        (w.flag ? '<div class="twk-flag">' + flagIcon + '<span>' + w.flag + '</span></div>' : '') +
+        '<label class="twk-check"><input type="checkbox" ' + (done[w.no]?'checked':'') + '> Mark week as done</label>' +
+      '</div>';
+    tl.appendChild(el);
+  });
+
+  function refreshProgress(){
+    const n = Object.values(done).filter(Boolean).length;
+    document.getElementById("prog-fill").style.width = (n/weeks.length*100) + "%";
+    document.getElementById("prog-label").textContent = n + " / " + weeks.length + " weeks";
+  }
+  refreshProgress();
+
+  tl.addEventListener("change", e=>{
+    if(e.target.type!=="checkbox") return;
+    const card = e.target.closest(".twk");
+    const no = card.dataset.no;
+    done[no] = e.target.checked;
+    card.classList.toggle("done", e.target.checked);
+    saveDone(done);
+    refreshProgress();
+  });
+
+  /* ---------- accordion ---------- */
+  document.querySelectorAll(".acc-head").forEach(btn=>{
+    const body = document.getElementById(btn.getAttribute("aria-controls"));
+    function set(open){
+      btn.setAttribute("aria-expanded", open);
+      body.style.maxHeight = open ? body.scrollHeight + "px" : "0";
+    }
+    if(btn.getAttribute("aria-expanded")==="true"){ requestAnimationFrame(()=>set(true)); }
+    btn.addEventListener("click", ()=> set(btn.getAttribute("aria-expanded")!=="true"));
+  });
+  // keep open panels sized correctly after font load / resize
+  window.addEventListener("resize", ()=>{
+    document.querySelectorAll('.acc-head[aria-expanded="true"]').forEach(btn=>{
+      const body = document.getElementById(btn.getAttribute("aria-controls"));
+      body.style.maxHeight = body.scrollHeight + "px";
+    });
+  });
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{
+      document.querySelectorAll('.acc-head[aria-expanded="true"]').forEach(btn=>{
+        const body = document.getElementById(btn.getAttribute("aria-controls"));
+        body.style.maxHeight = body.scrollHeight + "px";
+      });
+    });
+  }
+</script>
+</body>
+</html>
